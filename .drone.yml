@@ -1,0 +1,63 @@
+kind: pipeline
+name: pipeline1
+
+steps:
+- name: P1-S1
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 60
+
+---
+
+kind: pipeline
+name: pipeline2
+
+steps:
+- name: P2-S1
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 60
+
+- name: P2-S2
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 60
+
+---
+
+kind: pipeline
+name: pipeline3
+
+steps:
+- name: P3-S1
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 30
+
+- name: P3-S2
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 30
+
+- name: P3-S3
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 30
+
+---
+
+kind: pipeline
+name: pipeline4
+
+steps:
+- name: P4-S1
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 60
