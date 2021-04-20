@@ -26,6 +26,9 @@ steps:
   commands:
   - sleep 60
 
+depends_on:
+  - pipeline1
+
 ---
 
 kind: pipeline
@@ -50,6 +53,9 @@ steps:
   commands:
   - sleep 30
 
+depends_on:
+  - pipeline2
+
 ---
 
 kind: pipeline
@@ -61,3 +67,8 @@ steps:
   user: root
   commands:
   - sleep 60
+
+depends_on:
+  - pipeline1
+  - pipeline2
+  - pipeline3
