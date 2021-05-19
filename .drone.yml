@@ -6,7 +6,7 @@ steps:
   image: alpine/git
   user: root
   commands:
-  - sleep 60
+  - sleep 2
 
 ---
 
@@ -18,13 +18,14 @@ steps:
   image: alpine/git
   user: root
   commands:
-  - sleep 60
+  - sleep 2
+  - exit 1
 
 - name: P2-S2
   image: alpine/git
   user: root
   commands:
-  - sleep 60
+  - sleep 2
 
 depends_on:
   - pipeline1
@@ -39,22 +40,19 @@ steps:
   image: alpine/git
   user: root
   commands:
-  - sleep 30
+  - sleep 2
 
 - name: P3-S2
   image: alpine/git
   user: root
   commands:
-  - sleep 30
+  - sleep 2
 
 - name: P3-S3
   image: alpine/git
   user: root
   commands:
-  - sleep 30
-
-depends_on:
-  - pipeline2
+  - sleep 2
 
 ---
 
@@ -66,9 +64,8 @@ steps:
   image: alpine/git
   user: root
   commands:
-  - sleep 60
+  - sleep 2
 
 depends_on:
   - pipeline1
-  - pipeline2
   - pipeline3
