@@ -5,8 +5,18 @@ steps:
 - name: P1-S1
   image: alpine/git
   user: root
+  volumes:
+    - name: test-dir
+      path: /tmp/testdir
   commands:
-  - sleep 2
+  - mkdir /tmp/testdir/build_$${DRONE_BUILD_NUMBER}
+  - echo "testfile" > /tmp/testdir/build_$${DRONE_BUILD_NUMBER}/test.txt
+  - ll /tmp/testdir/build_$${DRONE_BUILD_NUMBER}
+
+volumes:
+  - name: test-dir
+    host:
+      path: /usr/local/etc/tezedge-ci/build/
 
 ---
 
@@ -18,7 +28,7 @@ steps:
   image: alpine/git
   user: root
   commands:
-  - sleep 2
+  - sleep 30
   - exit 1
 
 - name: P2-S2
