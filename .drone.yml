@@ -7,11 +7,11 @@ steps:
   user: root
   volumes:
     - name: test-dir
-      path: /tmp/testdir
+      path: /builds
   commands:
-  - mkdir /tmp/testdir/build_$${DRONE_BUILD_NUMBER}
-  - echo "testfile" > /tmp/testdir/build_$${DRONE_BUILD_NUMBER}/test.txt
-  - ll /tmp/testdir/build_$${DRONE_BUILD_NUMBER}
+  - mkdir /builds/build_${DRONE_BUILD_NUMBER}
+  - echo "testfile" > /builds/build_${DRONE_BUILD_NUMBER}/test.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
 
 volumes:
   - name: test-dir
