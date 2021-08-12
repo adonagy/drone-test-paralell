@@ -79,3 +79,25 @@ steps:
 depends_on:
   - pipeline1
   - pipeline3
+
+---
+# this pipeline should execute as last and should ignore failing pipelines
+kind: pipeline
+name: cleanup-pipeline-4
+
+steps:
+- name: quote-cleanup-endquote
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 2
+
+when:
+  status:
+  - success
+  - failure
+
+depends_on:
+  - pipeline1
+  - pipeline2
+  - pipeline3
