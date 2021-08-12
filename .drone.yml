@@ -83,6 +83,7 @@ steps:
       path: /builds
   commands:
   - sleep 2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
 
 depends_on:
@@ -122,6 +123,7 @@ steps:
     - name: test-dir
       path: /builds
   commands:
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
   - sleep 2
 
