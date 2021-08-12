@@ -11,6 +11,7 @@ steps:
   commands:
   - mkdir /builds/build_${DRONE_BUILD_NUMBER}
   - echo "testfile_${DRONE_BUILD_NUMBER}" > /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - chown -R nobody:nogroup /builds/build_${DRONE_BUILD_NUMBER}
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - sleep 2
 
