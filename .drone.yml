@@ -30,7 +30,7 @@ steps:
   user: root
   commands:
   - sleep 3
-  - exit 1
+  - exit 0
 
 - name: P2-S2
   image: alpine/git
@@ -123,7 +123,7 @@ steps:
   commands:
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
   - sleep 2
-  
+
 depends_on:
   - pipeline1
 
