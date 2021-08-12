@@ -83,7 +83,7 @@ depends_on:
 ---
 # this pipeline should execute as last and should ignore failing pipelines
 kind: pipeline
-name: cleanup-pipeline-4
+name: cleanup-pipeline
 
 steps:
 - name: quote-cleanup-endquote
@@ -101,3 +101,4 @@ depends_on:
   - pipeline1
   - pipeline2
   - pipeline3
+  - pipeline4
