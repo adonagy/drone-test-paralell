@@ -23,6 +23,30 @@ volumes:
 ---
 
 kind: pipeline
+name: pipeline1-2
+
+steps:
+- name: P1-2-S1
+  image: alpine/git
+  user: root
+  volumes:
+    - name: test-dir
+      path: /builds
+  commands:
+  - mkdir /builds/build_${DRONE_BUILD_NUMBER}_2
+  - echo "testfile_${DRONE_BUILD_NUMBER}_2" > /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
+  - chown -R nobody:nogroup /builds/build_${DRONE_BUILD_NUMBER}_2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - sleep 2
+
+volumes:
+  - name: test-dir
+    host:
+      path: /mnt/ci-share
+
+---
+
+kind: pipeline
 name: pipeline2
 
 steps:
@@ -49,9 +73,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -86,9 +113,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -111,9 +141,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -136,9 +169,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -161,9 +197,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -185,9 +224,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
@@ -210,9 +252,12 @@ steps:
   - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
 depends_on:
   - pipeline1
+  - pipeline1-2
 
 volumes:
   - name: test-dir
