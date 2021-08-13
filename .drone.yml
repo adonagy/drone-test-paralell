@@ -143,6 +143,7 @@ steps:
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
   - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
+  - exit 1
 
 depends_on:
   - pipeline1
