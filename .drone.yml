@@ -104,29 +104,112 @@ steps:
 - name: P4-S1
   image: alpine/git
   user: root
+  volumes:
+    - name: test-dir
+      path: /builds
   commands:
   - sleep 2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
+  - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
 
 depends_on:
   - pipeline1
-  - pipeline3
+
+volumes:
+  - name: test-dir
+    host:
+      path: /ci-share
 
 ---
-# this pipeline should execute as last and should ignore failing pipelines
+
 kind: pipeline
-name: cleanup-pipeline
+name: pipeline5
 
 steps:
-- name: quote-cleanup-endquote
+- name: P5-S1
   image: alpine/git
   user: root
   volumes:
     - name: test-dir
       path: /builds
   commands:
+  - sleep 2
   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+
+depends_on:
+  - pipeline1
+
+volumes:
+  - name: test-dir
+    host:
+      path: /ci-share
+
+---
+
+kind: pipeline
+name: pipeline6
+
+steps:
+- name: P6-S1
+  image: alpine/git
+  user: root
+  volumes:
+    - name: test-dir
+      path: /builds
+  commands:
   - sleep 2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
+  - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+
+depends_on:
+  - pipeline1
+
+volumes:
+  - name: test-dir
+    host:
+      path: /ci-share
+---
+
+kind: pipeline
+name: pipeline7
+
+steps:
+- name: P7-S1
+  image: alpine/git
+  user: root
+  volumes:
+    - name: test-dir
+      path: /builds
+  commands:
+  - sleep 2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
+  - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
+
+depends_on:
+  - pipeline1
+
+volumes:
+  - name: test-dir
+    host:
+      path: /ci-share
+
+---
+
+kind: pipeline
+name: pipeline8
+
+steps:
+- name: P8-S1
+  image: alpine/git
+  user: root
+  volumes:
+    - name: test-dir
+      path: /builds
+  commands:
+  - sleep 2
+  - ls -la /builds/build_${DRONE_BUILD_NUMBER}
+  - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
 
 depends_on:
   - pipeline1
