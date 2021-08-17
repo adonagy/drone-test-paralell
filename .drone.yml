@@ -5,12 +5,10 @@ steps:
 - name: P1-S1
   image: alpine/git
   user: root
-  volumes:
-    - name: cache
-      path: /build
   commands:
-  - echo "testfile_${DRONE_BUILD_NUMBER}" > /build/test_${DRONE_BUILD_NUMBER}.txt
-  - ls -la /build
+  - mkdir drone-cache
+  - echo "testfile_${DRONE_BUILD_NUMBER}" > ./drone-cache/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la drone-cache
   - sleep 2
 
 - name: rebuild-chache
@@ -18,7 +16,7 @@ steps:
   pull: true
   volumes:
     - name: cache
-      path: /build
+      path: drone-cache
   environment:
     SFTP_USERNAME:
       from_secret: sftp_username
@@ -33,11 +31,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - /build
-
-volumes:
-  - name: cache
-    temp: {}
+      - 'drone-cache'
 
 # ---
 
@@ -75,7 +69,7 @@ steps:
   pull: true
   volumes:
     - name: cache
-      path: /build
+      path: /drone-cache
   environment:
     SFTP_USERNAME:
       from_secret: sftp_username
@@ -90,7 +84,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - /build
+      - '/drone-cache/cached-build'
 
 - name: P2-S1
   image: alpine/git
@@ -110,11 +104,11 @@ steps:
   user: root
   volumes:
     - name: cache
-      path: /build
+      path: /drone-cache
   commands:
   - sleep 2
-  - ls -la /build
-  - cat /build/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /drone-cache/cached-build
+  - cat drone-cache/cached-build/test_${DRONE_BUILD_NUMBER}.txt
   # - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
   # - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
