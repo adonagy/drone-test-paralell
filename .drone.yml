@@ -63,46 +63,68 @@ volumes:
 #     host:
 #       path: /mnt/ci-share
 
-# ---
+---
 
-# kind: pipeline
-# name: pipeline2
+kind: pipeline
+name: pipeline2
 
-# steps:
-# - name: P2-S1
-#   image: alpine/git
-#   user: root
-#   commands:
-#   - sleep 3
-#   - exit 0
+steps:
 
-# - name: P2-S2
-#   image: alpine/git
-#   user: root
-#   commands:
-#   - sleep 2
+- name: restore-cache
+  image: meltwater/drone-cache
+  pull: true
+  volumes:
+    - name: cache
+      path: /build
+  environment:
+    SFTP_USERNAME:
+      from_secret: sftp_username
+    SFTP_PASSWORD:
+      from_secret: sftp_password
+    SFTP_AUTH_METHOD: PASSWORD
+    SFTP_HOST: 116.202.128.230
+    SFTP_PORT: 2732
+    SFTP_CACHE_ROOT: "/upload"
+  settings:
+    restore: true
+    backend: "sftp"
+    cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
+    mount:
+      - /build
 
-# - name: P2-S3
-#   image: alpine/git
-#   user: root
-#   volumes:
-#     - name: test-dir
-#       path: /builds
-#   commands:
-#   - sleep 2
-#   - ls -la /builds/build_${DRONE_BUILD_NUMBER}
-#   - cat /builds/build_${DRONE_BUILD_NUMBER}/test_${DRONE_BUILD_NUMBER}.txt
-#   - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
-#   - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
+- name: P2-S1
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 3
+  - exit 0
 
-# depends_on:
-#   - pipeline1
-#   - pipeline1-2
+- name: P2-S2
+  image: alpine/git
+  user: root
+  commands:
+  - sleep 2
 
-# volumes:
-#   - name: test-dir
-#     host:
-#       path: /mnt/ci-share
+- name: P2-S3
+  image: alpine/git
+  user: root
+  volumes:
+    - name: cache
+      path: /build
+  commands:
+  - sleep 2
+  - ls -la /build
+  - cat /build/test_${DRONE_BUILD_NUMBER}.txt
+  # - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
+  # - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
+
+depends_on:
+  - pipeline1
+  # - pipeline1-2
+
+volumes:
+  - name: cache
+    temp: {}
 
 # ---
 
