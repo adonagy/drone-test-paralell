@@ -29,7 +29,6 @@ steps:
     SFTP_PORT: 2732
     SFTP_CACHE_ROOT: "/upload"
   settings:
-    rebuild: true
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
