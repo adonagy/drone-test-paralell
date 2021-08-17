@@ -10,6 +10,12 @@ steps:
   - ls -la drone-cache
   - sleep 2
 
+- name: P1-S2
+  image: alpine/git
+  commands:
+  - ls -la /drone/src
+  - ls -la /drone/src/drone-cache
+
 - name: rebuild-cache
   image: meltwater/drone-cache
   pull: true
