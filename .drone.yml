@@ -69,18 +69,12 @@ steps:
 
 - name: prepare-restored-cache-dir
   image: alpine/git
-  volumes:
-    - name: cache
-      path: /drone/drone-cache
   commands:
-  - mkdir /drone/drone-cache/drone-cache
+  - mkdir drone-cache
 
 - name: restore-cache
   image: meltwater/drone-cache
   pull: true
-  volumes:
-    - name: cache
-      path: /drone/drone-cache
   environment:
     SFTP_USERNAME:
       from_secret: sftp_username
@@ -96,7 +90,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - '/drone/drone-cache'
+      - 'drone-cache'
 
 - name: P2-S1
   image: alpine/git
@@ -111,13 +105,10 @@ steps:
 
 - name: P2-S3
   image: alpine/git
-  volumes:
-    - name: cache
-      path: /drone/drone-cache
   commands:
   - sleep 2
-  - ls -la /drone/drone-cache/cache
-  - cat /drone/drone-cache/cache/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la drone-cache
+  - cat drone-cache/test_${DRONE_BUILD_NUMBER}.txt
   # - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
   # - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
