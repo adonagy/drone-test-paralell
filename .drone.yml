@@ -30,6 +30,7 @@ steps:
     SFTP_CACHE_ROOT: "/upload"
   settings:
     rebuild: true
+    debug: true
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
@@ -83,6 +84,7 @@ steps:
     SFTP_CACHE_ROOT: "/upload"
   settings:
     restore: true
+    debug: true
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
