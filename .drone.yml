@@ -10,12 +10,9 @@ steps:
   - ls -la drone-cache
   - sleep 2
 
-- name: rebuild-chache
+- name: rebuild-cache
   image: meltwater/drone-cache
   pull: true
-  volumes:
-    - name: cache
-      path: drone-cache
   environment:
     SFTP_USERNAME:
       from_secret: sftp_username
@@ -30,7 +27,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - 'drone-cache'
+      - 'drone-cache' # <- builds a cache from this directory
 
 # ---
 
@@ -68,7 +65,7 @@ steps:
   pull: true
   volumes:
     - name: cache
-      path: /drone-cache
+      path: /drone/drone-cache
   environment:
     SFTP_USERNAME:
       from_secret: sftp_username
@@ -83,7 +80,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - '/drone-cache/cached-build'
+      - '/drone/drone-cache/cache'
 
 - name: P2-S1
   image: alpine/git
@@ -100,11 +97,11 @@ steps:
   image: alpine/git
   volumes:
     - name: cache
-      path: /drone-cache
+      path: /drone/drone-cache
   commands:
   - sleep 2
-  - ls -la /drone-cache/cached-build
-  - cat drone-cache/cached-build/test_${DRONE_BUILD_NUMBER}.txt
+  - ls -la /drone/drone-cache/cache
+  - cat /drone/drone-cache/cache/test_${DRONE_BUILD_NUMBER}.txt
   # - ls -la /builds/build_${DRONE_BUILD_NUMBER}_2
   # - cat /builds/build_${DRONE_BUILD_NUMBER}_2/test_${DRONE_BUILD_NUMBER}_2.txt
 
