@@ -29,7 +29,7 @@ steps:
     SFTP_PORT: 2732
     SFTP_CACHE_ROOT: "/upload"
   settings:
-    debug: true
+    rebuild: true
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
@@ -86,7 +86,7 @@ steps:
     backend: "sftp"
     cache_key: '{{ .Repo.Name }}-build-{{ .Build.Number }}'
     mount:
-      - '/drone/drone-cache/cache'
+      - '/drone/drone-cache'
 
 - name: P2-S1
   image: alpine/git
