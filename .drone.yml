@@ -67,6 +67,14 @@ name: pipeline2
 
 steps:
 
+- name: prepare-restored-cache-dir
+  image: alpine/git
+  volumes:
+    - name: cache
+      path: /drone/drone-cache
+  commands:
+  - mkdir /drone/drone-cache/drone-cache
+
 - name: restore-cache
   image: meltwater/drone-cache
   pull: true
