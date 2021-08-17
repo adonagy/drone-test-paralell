@@ -4,7 +4,6 @@ name: pipeline1
 steps:
 - name: P1-S1
   image: alpine/git
-  user: root
   commands:
   - mkdir drone-cache
   - echo "testfile_${DRONE_BUILD_NUMBER}" > ./drone-cache/test_${DRONE_BUILD_NUMBER}.txt
@@ -88,20 +87,17 @@ steps:
 
 - name: P2-S1
   image: alpine/git
-  user: root
   commands:
   - sleep 3
   - exit 0
 
 - name: P2-S2
   image: alpine/git
-  user: root
   commands:
   - sleep 2
 
 - name: P2-S3
   image: alpine/git
-  user: root
   volumes:
     - name: cache
       path: /drone-cache
